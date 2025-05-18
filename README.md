@@ -73,11 +73,19 @@ Kibana (visualized)
   - Setup Logstash for log enrichment.
   - Enable alerts in Kibana for error logs.
   - Automate everything with a Helmfile or GitOps approach.
+# Screenshots
 
-# Submission Package (Optional Files to Include)
-  - Dockerfile
-  - deployment.yaml & service.yaml for the app
-  - filebeat-values.yaml
-  - README.md with these steps
+### Services
 
+![services](https://github.com/user-attachments/assets/f0d4a5cf-04d9-4075-82ef-93f5fa3824e4)
+
+
+### Pods
+
+![pods](https://github.com/user-attachments/assets/6e51091e-466f-462e-b80d-2d674de5f39f)
+
+
+### Elastic Dashboard
+
+![elastic](https://github.com/user-attachments/assets/4603e12e-5354-4600-b652-6e41fe8bbeac)
 
