@@ -1,0 +1,37 @@
+# System
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Kubernetes artifacts
+*.yaml~    # backup files
+*.tmp
+*.bak
+
+# Helm
+.helm/
+
+# Docker
+*.tar
+.docker/
+
+# IDEs
+.vscode/
+.idea/
+
+# Java/Build tools
+target/
+build/
+out/
+
+# OS-specific
+.env
+.env.*
+
+# Kubernetes kubeconfig (if present)
+kubeconfig.yaml
+
+# Sensitive files
+secrets.yaml
