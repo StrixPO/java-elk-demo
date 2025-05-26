@@ -18,39 +18,39 @@ k3d cluster create java-app --agents 1 --api-port 43199
 ### 2. Deploy Java App
 Dockerized the WAR using Tomcat:
 #### Dockerfile
-`
+```
 FROM tomcat:9.0
 COPY ./java-sample.war /usr/local/tomcat/webapps/
-`
+```
 Created K8s Deployment and Service for the app.
 
 ### 3. Install ELK Stack via Helm
 Added Elastic Helm repo:
-`
+```
 helm repo add elastic https://helm.elastic.co
 helm repo update
-`
+```
 
 Deployed:
-`
+```
 helm install elasticsearch elastic/elasticsearch
 helm install kibana elastic/kibana
-`
+```
 ### 4. Install Filebeat
 Used Elastic’s Helm chart:
-`
+```
 helm install filebeat elastic/filebeat 
-`
+```
 ### 5. Port-Forwarding for Access
 Access Kibana locally:
-`
+```
 kubectl port-forward service/kibana-kibana 5601:5601
-`
+```
 
 Visit http://localhost:5601 in browser.
 
 # Log Flow Diagram (Conceptual)
-`
+```
 Java App Pod
    |
    | (log file)
@@ -63,15 +63,13 @@ Elasticsearch (indexed)
    |
    v
 Kibana (visualized)
-`
+```
 # Validation
 - kubectl get pods → All services Running
 - kubectl get svc → ClusterIP Services available
 - Port-forward successful (curl localhost:5601)
 - Logged into Kibana using retrieved password:
-`
-kubectl get secret elasticsearch-master-credentials -o jsonpath="{.data.password}" | base64 --decode && echo
-`
+`kubectl get secret elasticsearch-master-credentials -o jsonpath="{.data.password}" | base64 --decode && echo`
 - Discovered logs in .ds-filebeat-* index
 - Created Kibana Data View and verified logs from Java app pod
 
