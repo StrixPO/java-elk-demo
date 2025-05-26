@@ -1,6 +1,7 @@
-# Project Overview
-Deploy a Java web application (WAR) on a Kubernetes (K3d) cluster and configure centralized logging using the ELK stack (Elasticsearch, Logstash [opted out], Kibana) with Filebeat.
+# Project Overview  
+Deploy a Java web application (WAR) on a lightweight multi-node Kubernetes cluster using K3d, with centralized logging via the ELK stack (Elasticsearch + Kibana — Logstash skipped) and Filebeat. The goal: visualize application logs on Kibana without writing custom Filebeat configs.
 
+---
 # Tech Stack
   - Kubernetes: via K3d (lightweight k3s in Docker)
   - App: Java WAR deployed to a container
@@ -19,7 +20,7 @@ Dockerized the WAR using Tomcat:
 #### Dockerfile
 `
 FROM tomcat:9.0
-COPY ./your-app.war /usr/local/tomcat/webapps/
+COPY ./java-sample.war /usr/local/tomcat/webapps/
 `
 Created K8s Deployment and Service for the app.
 
@@ -38,7 +39,7 @@ helm install kibana elastic/kibana
 ### 4. Install Filebeat
 Used Elastic’s Helm chart:
 `
-helm install filebeat elastic/filebeat -f filebeat-values.yaml
+helm install filebeat elastic/filebeat 
 `
 ### 5. Port-Forwarding for Access
 Access Kibana locally:
@@ -64,9 +65,15 @@ Elasticsearch (indexed)
 Kibana (visualized)
 `
 # Validation
-  - kubectl get pods shows all services running.
-  - curl localhost:5601 succeeded (Kibana up).
-  - App logs are being shipped to Elastic (can verify in Kibana > Discover).
+- kubectl get pods → All services Running
+- kubectl get svc → ClusterIP Services available
+- Port-forward successful (curl localhost:5601)
+- Logged into Kibana using retrieved password:
+`
+kubectl get secret elasticsearch-master-credentials -o jsonpath="{.data.password}" | base64 --decode && echo
+`
+- Discovered logs in .ds-filebeat-* index
+- Created Kibana Data View and verified logs from Java app pod
 
 # Improvements / Stretch Goals
   - Add Ingress Controller with custom domain names.
